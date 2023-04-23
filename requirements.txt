@@ -1,0 +1,14 @@
+pandas~=1.5.1
+geopandas~=0.12.1
+pyrosm
+Shapely~=1.8.5.post1
+SQLAlchemy~=1.4.44
+psycopg2-binary
+networkx~=2.8.7
+osmnx~=1.2.2
+pydantic
+geoalchemy2
+numpy==1.23
+fastapi
+folium==0.14.0
+jinja2

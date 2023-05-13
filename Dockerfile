@@ -7,10 +7,11 @@ COPY . /project
 
 RUN apk add build-essential
 
-RUN apk update && apk add python3-dev \
-                          gcc \
-                          libc-dev \
-                          libffi-dev
+RUN apk update && apk add --virtual build-dependencies \
+                                    build-base \
+                                    gcc \
+                                    wget \
+                                    git
 
 RUN pip install -r requirements.txt
 

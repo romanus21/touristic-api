@@ -64,12 +64,12 @@ class DijkstraGuide:
 
                 influence_area = self.pdf['influence_area'][edge_poi]
                 xx, yy = influence_area.exterior.coords.xy
-                coords =
+                # coords =
 
                 res_poises[edge_poi] = {
                     "name": self.pdf["name"][edge_poi],
                     "center": (centroid.x, centroid.y),
-                    'influence_area': self.pdf['influence_area'][edge_poi]
+                    # 'influence_area': self.pdf['influence_area'][edge_poi]
                 }
 
         return res, list(res_poises.values())

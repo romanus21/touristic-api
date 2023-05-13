@@ -20,11 +20,11 @@ jobs:
 
       - name: Build project
         run: |
-          docker build . -t ${{ github.repository }}:latest
+          docker build . -t touristics-api:latest
 
       - name: Push project
         run: |
-          docker push . -t ${{ github.repository }}:latest
+          docker push touristics-api:latest
         
       - name: Add ssh key
         run: |

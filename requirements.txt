@@ -12,3 +12,4 @@ numpy==1.23
 fastapi
 folium==0.14.0
 jinja2
+scikit-learn

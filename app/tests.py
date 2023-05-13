@@ -2,8 +2,8 @@ import itertools
 
 from app.db import get_engine
 from app.guide.cuckoo.cuckoo import CuckooAlgo
-from app.guide.route import (
-    get_cycle_route,
+from app.guide.dijkstra.route import get_djikstra_route
+from app.guide.cuckoo.route import (
     get_graph,
     get_sights,
     get_node_by_coord,
@@ -43,5 +43,11 @@ def calc():
     print(solution)
 
 
+def calc_route():
+    start_lat, start_lon = (59.90502001713264, 30.314780012851003)
+    end_lat, end_lon = (59.91502001713264, 30.324780012851003)
+    print(get_djikstra_route(start_lat, start_lon, end_lat, end_lon))
+
+
 if __name__ == "__main__":
-    calc()
+    calc_route()

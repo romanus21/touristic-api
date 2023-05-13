@@ -20,7 +20,7 @@ with open(
         "gen_pois_by_bb.sql",
     )
 ) as f:
-    pois_by_bb_inf = f.read()
+    gen_pois_by_bb_inf = f.read()
 
 with open(
     os.path.join(
@@ -41,3 +41,24 @@ with open(
     )
 ) as f:
     nearest_node_by_bb_and_coord = f.read()
+
+with open(
+    os.path.join(
+        settings.BASE_DIR,
+        "guide",
+        "scripts",
+        "djikstra_edges.sql",
+    )
+) as f:
+    djikstra_edges = f.read()
+
+
+with open(
+    os.path.join(
+        settings.BASE_DIR,
+        "guide",
+        "scripts",
+        "pois_by_bb_inf.sql",
+    )
+) as f:
+    pois_by_bb_inf = f.read()

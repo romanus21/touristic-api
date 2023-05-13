@@ -13,3 +13,8 @@ class Point(BaseModel):
 class CalcCyclicRoute(BaseModel):
     point: Point
     minutes: float
+
+
+class CalcLinearRoute(BaseModel):
+    start_point: Point
+    end_point: Point

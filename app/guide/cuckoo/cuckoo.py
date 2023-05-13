@@ -179,7 +179,7 @@ class CuckooAlgo(Algo):
 
         fitness = (
             interest
-            * (1 - (real_dist - self.ideal_dist) ** 2 / self.ideal_dist**2)
+            * (1 - (real_dist - self.ideal_dist) ** 3 / self.ideal_dist**3)
             * (1 / (intersected * 2 + 1))
         )
 

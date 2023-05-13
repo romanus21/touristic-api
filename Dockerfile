@@ -5,6 +5,10 @@ WORKDIR /project
 
 COPY . /project
 
+RUN apt-get update \
+    && apt-get install gcc -y \
+    && apt-get clean
+
 RUN pip install -r requirements.txt
 
 

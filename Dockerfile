@@ -10,7 +10,7 @@ RUN apk update && apk add python3-dev \
                           libc-dev \
                           libffi-dev
 
-RUN pip install -r requirements.txt \
+RUN pip install -r requirements.txt
 
 
 ENTRYPOINT ["/project/app/main.py"]

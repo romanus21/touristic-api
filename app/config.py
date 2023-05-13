@@ -1,6 +1,9 @@
 import os
 
+from dotenv import load_dotenv
 from pydantic import BaseSettings
+
+load_dotenv()
 
 
 class Settings(BaseSettings):
@@ -12,6 +15,7 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
     DB_NAME: str
     DB_PORT: int
+    SPEED = 5000
 
     @property
     def DB_CONN_URL(self):

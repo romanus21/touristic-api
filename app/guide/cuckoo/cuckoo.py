@@ -1,3 +1,4 @@
+import logging
 import random
 from copy import copy
 from dataclasses import dataclass
@@ -7,6 +8,7 @@ import networkx
 import networkx as nx
 from networkx import MultiGraph
 
+from app.config import settings
 from app.guide.algo import Hour, Algo, AlgoResult
 from app.guide.pois import Sight
 
@@ -34,8 +36,6 @@ class Nest:
 
 
 class CuckooAlgo(Algo):
-    speed = 5000
-
     iterations = 100
 
     cuckoos_number = 50
@@ -134,7 +134,7 @@ class CuckooAlgo(Algo):
 
     @property
     def ideal_dist(self):
-        return self.route_time * self.speed
+        return self.route_time * settings.SPEED
 
     def fitness_calculation(self, cuckoo: list[Sight]):
         if len(set(cuckoo)) < self.harmony_size:
@@ -162,7 +162,9 @@ class CuckooAlgo(Algo):
                         self.graph, start_node, end_node
                     )
                 except networkx.exception.NetworkXNoPath:
-                    print(f"no way between nodes: {start_node} and {end_node}")
+                    logging.error(
+                        f"no way between nodes: {start_node} and {end_node}"
+                    )
                     return 0
                 self.create_cached_route(start_node, end_node, tmp_route)
 
@@ -237,7 +239,6 @@ class CuckooAlgo(Algo):
         if not self.best_cuckoo:
             raise Exception("no best harmony")
 
-        print(self.best_fitness)
         result = AlgoResult(solution=self.best_cuckoo.c)
 
         return result

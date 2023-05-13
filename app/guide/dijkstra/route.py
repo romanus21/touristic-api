@@ -119,7 +119,7 @@ def get_djikstra_route(start_lat, start_lon, end_lat, end_lon):
 
     w = DijkstraGuide(graph, pdf)
 
-    touristic_way, pois = w.compute(start_node, end_node)
+    touristic_way, pois, result_minutes = w.compute(start_node, end_node)
 
     out = {
         "route": [
@@ -127,5 +127,6 @@ def get_djikstra_route(start_lat, start_lon, end_lat, end_lon):
             for node_id in touristic_way
         ],
         "sights": pois,
+        "result_minutes": result_minutes,
     }
     return out

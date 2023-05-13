@@ -6,6 +6,7 @@ from networkx import MultiGraph
 from shapely.geometry import Polygon
 from sqlalchemy.engine import Engine
 
+from app.config import settings
 from app.db import get_engine
 from app.guide.cuckoo.cuckoo import CuckooAlgo
 from app.guide.pois import Sight, LeafletSight
@@ -128,6 +129,6 @@ def get_cycle_route(
         LeafletSight(sight, engine) for sight in result.solution
     ]
 
-    minutes = math.floor(route_length / CuckooAlgo.speed * 60)
+    minutes = math.floor(route_length / settings.SPEED * 60)
 
     return route, leaflet_sights, minutes

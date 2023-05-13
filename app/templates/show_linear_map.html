@@ -51,37 +51,6 @@
 <div class="container">
     <div class="row">
         <div class="col-3">
-            <div class="row">
-                <div class="col">
-                    <div class="card">
-                        <div class="card-header">
-                            Настройки желаемого маршрута
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <label>Время маршрута (Минуты)</label>
-                                </div>
-                            </div>
-                            <div class="row mt-2">
-                                <div class="col">
-                                    <input type="number" class="form-control"
-                                           id="desired_minutes"
-                                           placeholder="Минуты" value="60">
-                                </div>
-                            </div>
-                            <!--                            <div class="row mt-2 ">-->
-                            <!--                                <div class="col d-grid gap-2">-->
-                            <!--                                    <button class="btn btn-success btn-block"-->
-                            <!--                                            type="button">-->
-                            <!--                                        Построить-->
-                            <!--                                    </button>-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="row mt-4">
                 <div class="col">
                     <div class="card">
@@ -94,12 +63,7 @@
                                    id="result_minutes"
                                    placeholder="Минуты" disabled>
                             <label class="mt-3">Точки интереса</label>
-                            <ul class="list-group" id="sights_list">
-                                <!--                                <li class="list-group-item">A second item</li>-->
-                                <!--                                <li class="list-group-item">A third item</li>-->
-                                <!--                                <li class="list-group-item">A fourth item</li>-->
-                                <!--                                <li class="list-group-item">And a fifth one-->
-                                <!--                                </li>-->
+                            <ul class="list-group scrollspy-example" id="sights_list">
                             </ul>
                         </div>
                     </div>
@@ -160,7 +124,6 @@
             if (count !== 2) {
                 return;
             }
-            minutes = document.getElementById('desired_minutes').value;
             response = await fetch('/linear_route', {
                 method: 'POST',
                 headers: {
@@ -172,8 +135,8 @@
             var resp = await response.json()
             route = resp.route;
             sights = resp.sights;
-            minutes = resp.minutes;
-            document.getElementById('result_minutes').value = minutes;
+            result_minutes = resp.result_minutes;
+            document.getElementById('result_minutes').value = result_minutes;
             var route_line = L.polyline(
                 route,
                 {
@@ -206,6 +169,12 @@
                 sight_list_element.className = "list-group-item";
                 sight_list_element.appendChild(document.createTextNode(sight.name));
                 sights_list.appendChild(sight_list_element);
+                var polygon = L.polygon(sight.influence_area, {color: 'yellow'}).addTo(map);
+                polygon.bindTooltip(
+                    '<div>' + sight.name +
+                    '</div>',
+                    {"sticky": true}
+                );
                 var marker = L.marker(
                     sight.center,
                     {

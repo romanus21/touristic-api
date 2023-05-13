@@ -24,7 +24,7 @@ jobs:
 
       - name: Push project
         run: |
-          docker push . -t ${{ github.repository }}:latest
+          docker push ${{ github.repository }}:latest
         
       - name: Add ssh key
         run: |

@@ -5,8 +5,6 @@ WORKDIR /project
 
 COPY . /project
 
-RUN apt-get install build-essentials
-
 RUN pip install -r requirements.txt
 
 

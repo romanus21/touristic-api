@@ -5,7 +5,7 @@ WORKDIR /project
 
 COPY . /project
 
-RUN apk install build-essential
+RUN apk add build-essential
 
 RUN apk update && apk add python3-dev \
                           gcc \

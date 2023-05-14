@@ -32,7 +32,11 @@ jobs:
         with:
           push: true
           tags: romanusus/touristics-api:latest
-        
+
+
+      - run: |
+          ls
+
       - name: Start Deployment
         uses: TapTap21/docker-remote-deployment-action@v1.0
         with:

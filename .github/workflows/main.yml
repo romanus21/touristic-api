@@ -21,25 +21,25 @@ jobs:
           ref: master
           token: ${{ secrets.GIT_TOKEN }}
           
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      -
-        name: Build and push
-        uses: docker/build-push-action@v4
-        with:
-          push: true
-          tags: romanusus/touristics-api:latest
+#       - name: Login to Docker Hub
+#         uses: docker/login-action@v2
+#         with:
+#           username: ${{ secrets.DOCKERHUB_USERNAME }}
+#           password: ${{ secrets.DOCKERHUB_TOKEN }}
+#       -
+#         name: Build and push
+#         uses: docker/build-push-action@v4
+#         with:
+#           push: true
+#           tags: romanusus/touristics-api:latest
         
-      - name: Add ssh key
-        run: |
-          mkdir ~/.ssh
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/key
-          chmod 600 ~/.ssh/key
-      - name: Deploy project
-        env:
-          DOCKER_HOST: "ssh://${{ secrets.HOST_NAME }}@${{ secrets.HOST }}"
-        run: |
-          docker compose up
+      - name: Start Deployment
+        uses: TapTap21/docker-remote-deployment-action@v1.0
+        with:
+          remote_docker_host: "${{ secrets.HOST_NAME }}@${{ secrets.HOST }}"
+          ssh_private_key: ${{ secrets.SSH_KEY }}
+          ssh_public_key: ${{ secrets.SSH_PUB_KEY }}
+          stack_file_name: docker-compose.yml
+          docker_login_password: ${{ secrets.DOCKERHUB_TOKEN }}
+          docker_login_user: ${{ secrets.DOCKERHUB_USERNAME }}
+          args: -p touristics-api up -d 

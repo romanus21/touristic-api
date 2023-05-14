@@ -15,4 +15,4 @@ COPY ./app /project/app
 
 RUN chmod +x /project/app/main.py
 
-ENTRYPOINT ["/project/app/main.py"]
+ENTRYPOINT ["python3", "/project/app/main.py"]

@@ -12,6 +12,7 @@ RUN apt-get update \
 RUN pip install -r requirements.txt
 
 COPY ./app /project/app
+COPY ./envs /project/app
 
 RUN chmod +x /project/app/main.py
 

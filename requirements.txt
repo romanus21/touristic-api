@@ -1,6 +1,5 @@
 pandas~=1.5.1
 geopandas~=0.12.1
-pyrosm
 Shapely~=1.8.5.post1
 SQLAlchemy~=1.4.44
 psycopg2-binary

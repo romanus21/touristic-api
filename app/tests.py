@@ -1,5 +1,6 @@
 import itertools
 
+from app.config import settings
 from app.db import get_engine
 from app.guide.cuckoo.cuckoo import CuckooAlgo
 from app.guide.dijkstra.route import get_djikstra_route
@@ -50,4 +51,5 @@ def calc_route():
 
 
 if __name__ == "__main__":
-    calc_route()
+    print(settings.BASE_DIR)
+    # calc_route()

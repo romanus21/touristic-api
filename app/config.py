@@ -7,7 +7,8 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
-    BASE_DIR = os.path.curdir
+    LOCAL: bool = 0
+    BASE_DIR: str = None
     MEiDE = 111000
     PORT: int
     DB_HOST: str
@@ -16,6 +17,10 @@ class Settings(BaseSettings):
     DB_NAME: str
     DB_PORT: int
     SPEED = 5000
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.BASE_DIR = os.path.curdir if self.LOCAL else "/project/app"
 
     @property
     def DB_CONN_URL(self):

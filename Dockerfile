@@ -3,6 +3,8 @@ FROM python:3.9-slim
 RUN mkdir /project
 WORKDIR /project
 
+COPY ./envs /project/app
+
 COPY ./requirements.txt /project
 
 RUN apt-get update \
@@ -12,7 +14,6 @@ RUN apt-get update \
 RUN pip install -r requirements.txt
 
 COPY ./app /project/app
-COPY ./envs /project/app
 
 RUN chmod +x /project/app/main.py
 

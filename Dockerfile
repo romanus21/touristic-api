@@ -13,6 +13,6 @@ RUN pip install -r requirements.txt
 
 COPY ./app /project/app
 
-RUN chmod +x /start.sh
+RUN chmod +x /project/app/main.py
 
 ENTRYPOINT ["/project/app/main.py"]

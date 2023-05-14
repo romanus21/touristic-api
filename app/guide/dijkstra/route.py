@@ -1,9 +1,6 @@
-import logging
-
 import networkx
 import osmnx as ox
 from geopandas import GeoDataFrame
-from pyrosm import OSM
 from shapely import wkt
 from sqlalchemy.engine import Engine
 
@@ -12,8 +9,6 @@ from app.db import get_engine
 from app.guide.dijkstra.guide import DijkstraGuide
 from app.guide.scripts.sql_scripts import (
     nodes_by_bb,
-    edges_by_bb,
-    gen_pois_by_bb_inf,
     djikstra_edges,
     pois_by_bb_inf,
 )

@@ -5,3 +5,6 @@ services:
     image: romanusus/touristics-api:latest
     ports:
       - "8000:8000"
+    deploy:
+      restart_policy:
+        condition: on-failure

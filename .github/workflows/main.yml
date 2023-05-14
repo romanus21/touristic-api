@@ -24,7 +24,7 @@ jobs:
 
       - name: Push project
         run: |
-          docker push romanusu/touristics-api:latest
+          docker push romanusus/touristics-api:latest
         
       - name: Add ssh key
         run: |

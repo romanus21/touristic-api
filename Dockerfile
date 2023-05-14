@@ -11,5 +11,8 @@ RUN apt-get update \
 
 RUN pip install -r requirements.txt
 
+USER app
+WORKDIR /project
+RUN chmod +x /project/app/main.py
 
 ENTRYPOINT ["/project/app/main.py"]

@@ -42,4 +42,4 @@ jobs:
           stack_file_name: docker-compose.yml
           docker_login_password: ${{ secrets.DOCKERHUB_TOKEN }}
           docker_login_user: ${{ secrets.DOCKERHUB_USERNAME }}
-          args: -p touristics-api up --pull always -d 
+          args: -p touristics-api up -d 

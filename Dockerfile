@@ -3,7 +3,7 @@ FROM python:3.9-slim
 RUN mkdir /project
 WORKDIR /project
 
-COPY . /project
+COPY ./requirements.txt /project
 
 RUN apt-get update \
     && apt-get install gcc -y \
@@ -11,8 +11,8 @@ RUN apt-get update \
 
 RUN pip install -r requirements.txt
 
-USER app
-WORKDIR /project
-RUN chmod +x /project/app/main.py
+COPY ./app /project/app
+
+RUN chmod +x /start.sh
 
 ENTRYPOINT ["/project/app/main.py"]

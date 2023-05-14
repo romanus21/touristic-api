@@ -20,7 +20,7 @@ jobs:
 
       - name: Build project
         run: |
-          docker build . -t touristics-api:latest
+          docker build . -t romanusus/touristics-api:latest
 
       - name: Push project
         run: |

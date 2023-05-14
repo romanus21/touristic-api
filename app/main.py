@@ -1,3 +1,4 @@
+import os.path
 from http.client import HTTPException
 
 import folium.vector_layers
@@ -23,7 +24,7 @@ exception_handlers = {
 }
 
 app = FastAPI(exception_handlers=exception_handlers)
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory=os.path.join(settings.BASE_DIR, 'templates'))
 
 
 @app.get("/")

@@ -39,8 +39,6 @@ jobs:
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/key
           chmod 600 ~/.ssh/key
           eval `ssh-agent -s`
-          ls ~/.ssh/key
-          cat ~/.ssh/key
           ssh-add ~/.ssh/key
       - name: Deploy project
         env:

@@ -15,6 +15,6 @@ COPY ./app /project/app
 
 RUN chmod +x /project/app/main.py
 
-ENV PYTHONPATH "${PYTHONPATH}:/project/app"
+ENV PYTHONPATH="${PYTHONPATH}:/project/app"
 
 ENTRYPOINT ["python", "/project/app/main.py"]

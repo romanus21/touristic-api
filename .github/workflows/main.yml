@@ -36,7 +36,7 @@ jobs:
       - name: Start Deployment
         uses: TapTap21/docker-remote-deployment-action@v1.0
         with:
-          remote_docker_host: "{{ secrets.HOST_NAME }}@${{ secrets.HOST }}"
+          remote_docker_host: "${{ secrets.HOST_NAME }}@${{ secrets.HOST }}"
           ssh_private_key: ${{ secrets.SSH_KEY }}
           ssh_public_key: ${{ secrets.SSH_PUB_KEY }}
           stack_file_name: docker-compose.yml

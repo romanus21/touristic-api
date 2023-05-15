@@ -16,13 +16,10 @@ jobs:
       - name: Get ENVs
         uses: actions/checkout@v3
         with:
-          repository: 'romanus21/touristic-api-envs'
-          path: ./envs
+          repository: 'romanus21/touristic-api-deploy'
+          path: .
           ref: master
           token: ${{ secrets.GIT_TOKEN }}
-
-      - run: |
-          ls ./envs
           
       - name: Login to Docker Hub
         uses: docker/login-action@v2

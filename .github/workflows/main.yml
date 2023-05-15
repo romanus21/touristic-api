@@ -13,7 +13,7 @@ jobs:
       - name: Checkout master
         uses: actions/checkout@v3
         
-      - name: Get ENVs
+      - name: Get deploy
         uses: actions/checkout@v3
         with:
           repository: 'romanus21/touristic-api-deploy'

@@ -13,4 +13,3 @@ folium==0.14.0
 jinja2
 scikit-learn
 uvicorn
-python-dotenv

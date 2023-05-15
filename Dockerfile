@@ -3,8 +3,6 @@ FROM python:3.9-slim
 RUN mkdir /project
 WORKDIR /project
 
-COPY ./envs /project/app
-
 COPY ./requirements.txt /project
 
 RUN apt-get update \

@@ -22,7 +22,6 @@ class Algo(ABC):
         sights: dict[int, Sight],
         start_node: int,
         route_time: Hour,
-        desired_sights: int,
     ):
         pass
 

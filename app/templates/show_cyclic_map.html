@@ -60,7 +60,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <label>Время маршрута (Минуты)</label>
+                                    <label for="desired_minutes">Время маршрута
+                                        (Минуты)</label>
                                 </div>
                             </div>
                             <div class="row mt-2">
@@ -70,14 +71,26 @@
                                            placeholder="Минуты" value="60">
                                 </div>
                             </div>
-                            <!--                            <div class="row mt-2 ">-->
-                            <!--                                <div class="col d-grid gap-2">-->
-                            <!--                                    <button class="btn btn-success btn-block"-->
-                            <!--                                            type="button">-->
-                            <!--                                        Построить-->
-                            <!--                                    </button>-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
+                            <div class="row mt-2">
+                                <div class="col">
+                                    Желаемые достопримечательности
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    {% for id in filters %}
+                                    <div class="form-check">
+                                        <input class="form-check-input filter"
+                                               type="checkbox" value="{{id}}"
+                                               id="filter-{{id}}" checked>
+                                        <label class="form-check-label"
+                                               for="filter-{{id}}">
+                                            {{ filters[id]['name'] }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -148,6 +161,13 @@
             localStorage['lat'] = lat;
             localStorage['lon'] = lon;
             minutes = document.getElementById('desired_minutes').value;
+            var filters = document.getElementsByClassName("filter");
+            var checked_filters = [];
+            for (let item of filters) {
+                if (item.checked) {
+                    checked_filters.push(item.value);
+                }
+            }
             response = await fetch('/cyclic_route', {
                 method: 'POST',
                 headers: {
@@ -156,6 +176,7 @@
                 },
                 body: JSON.stringify({
                     'point': {"lat": lat, "lon": lon},
+                    'filters': checked_filters,
                     'minutes': minutes
                 })
             });

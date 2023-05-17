@@ -49,16 +49,15 @@ class CuckooAlgo(Algo):
         sights: dict[int, Sight],
         start_node: int,
         route_time: Hour,
-        desired_sights: int,
     ):
-        super().__init__(graph, sights, start_node, route_time, desired_sights)
+        super().__init__(graph, sights, start_node, route_time)
         self.graph = graph
         self.nodes: set = set(node for node in graph.nodes)
         self.sights = sights
         self.start_node = start_node
         self.route_time = route_time
 
-        desired_sights = max(int(self.route_time / 10), 2)
+        desired_sights = max(int(self.route_time / 5), 2)
         desired_sights = min(desired_sights, 20)
 
         self.harmony_size = min(desired_sights, len(self.sights))

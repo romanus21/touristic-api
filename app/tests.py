@@ -19,11 +19,11 @@ def calc_route():
 
 if __name__ == "__main__":
     # print(settings.BASE_DIR)
-    print('qwe')
+    print("qwe")
     start = datetime.now()
     calc()
     end = datetime.now()
-    print((end-start).seconds)
+    print((end - start).seconds)
     # start = datetime.now()
     # calc()
     # end = datetime.now()

@@ -1,9 +1,7 @@
 import math
 
-import folium
 import networkx
 from networkx import MultiGraph
-from shapely.geometry import Polygon
 from sqlalchemy.engine import Engine
 
 from app.config import settings
@@ -51,9 +49,12 @@ def get_graph(
 
 
 def get_sights(
-    bbox: BBox, graph: MultiGraph, engine: Engine
+    bbox: BBox, graph: MultiGraph, engine: Engine, filters: list[str]
 ) -> dict[int, Sight]:
-    pois = engine.execute(gen_pois_by_bb_inf.format(*bbox.in_order)).mappings()
+    str_filters = f" and ({' or '.join(filters)})" if len(filters) > 0 else ""
+    pois = engine.execute(
+        gen_pois_by_bb_inf.format(*bbox.in_order, filters=str_filters)
+    ).mappings()
 
     sights = dict()
     for sight in pois:
@@ -78,22 +79,20 @@ def get_node_by_coord(lat: float, lon: float, bbox: BBox, engine: Engine):
 
 
 def get_cycle_route(
-    start_lat, start_lon, minutes: float
+    start_lat, start_lon, minutes: float, filters: list[str]
 ) -> tuple[list[list[float, float]], list[LeafletSight], float]:
-    desired_sights = 10
-
     engine = get_engine()
     start_point = (start_lat, start_lon)
     bbox = bbox_from_point(start_point)
 
     graph = get_graph(bbox, engine=engine)
-    sights = get_sights(bbox, graph, engine=engine)
+    sights = get_sights(bbox, graph, engine=engine, filters=filters)
+    print(len(sights))
 
     start_node = get_node_by_coord(
         lat=start_lat, lon=start_lon, bbox=bbox, engine=engine
     )
     algo = CuckooAlgo(
-        desired_sights=desired_sights,
         sights=sights,
         graph=graph,
         start_node=start_node,
@@ -117,9 +116,9 @@ def get_cycle_route(
         tmp_route_nodes = networkx.shortest_path(
             graph, source=source, target=target
         )
-        for index in range(len(tmp_route_nodes) - 1):
+        for _index in range(len(tmp_route_nodes) - 1):
             route_length += graph.get_edge_data(
-                tmp_route_nodes[index], tmp_route_nodes[index + 1]
+                tmp_route_nodes[_index], tmp_route_nodes[_index + 1]
             )[0]["length"]
         for node in tmp_route_nodes:
             node = graph.nodes[node]

@@ -94,7 +94,7 @@ def str_to_geometry(obj):
     return wkt.loads(obj["geometry"])
 
 
-def get_djikstra_route(start_lat, start_lon, end_lat, end_lon):
+def get_djikstra_route(start_lat, start_lon, end_lat, end_lon, filters):
     engine = get_engine()
     start_point = (start_lat, start_lon)
     end_point = (end_lat, end_lon)
@@ -102,8 +102,9 @@ def get_djikstra_route(start_lat, start_lon, end_lat, end_lon):
     bbox: BBox
     graph, bbox = get_graph(start_point, end_point, engine)
 
+    str_filters = f" and ({' or '.join(filters)})" if len(filters) > 0 else ""
     pdf = GeoDataFrame.from_postgis(
-        pois_by_bb_inf.format(*bbox.in_order),
+        pois_by_bb_inf.format(*bbox.in_order, filters=str_filters),
         engine,
         geom_col="influence_area",
     )

@@ -51,6 +51,37 @@
 <div class="container">
     <div class="row">
         <div class="col-3">
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            Настройки желаемого маршрута
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    Желаемые достопримечательности
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col">
+                                    {% for id in filters %}
+                                    <div class="form-check">
+                                        <input class="form-check-input filter"
+                                               type="checkbox" value="{{id}}"
+                                               id="filter-{{id}}" checked>
+                                        <label class="form-check-label"
+                                               for="filter-{{id}}">
+                                            {{ filters[id]['name'] }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row mt-4">
                 <div class="col">
                     <div class="card">
@@ -63,7 +94,8 @@
                                    id="result_minutes"
                                    placeholder="Минуты" disabled>
                             <label class="mt-3">Точки интереса</label>
-                            <ul class="list-group scrollspy-example" id="sights_list">
+                            <ul class="list-group scrollspy-example"
+                                id="sights_list">
                             </ul>
                         </div>
                     </div>
@@ -124,6 +156,14 @@
             if (count !== 2) {
                 return;
             }
+            var filters = document.getElementsByClassName("filter");
+            var checked_filters = [];
+            for (let item of filters) {
+                if (item.checked) {
+                    checked_filters.push(item.value);
+                }
+            }
+            task['filters'] = checked_filters;
             response = await fetch('/linear_route', {
                 method: 'POST',
                 headers: {

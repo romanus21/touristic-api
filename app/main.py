@@ -8,8 +8,8 @@ from folium import folium
 from starlette.templating import Jinja2Templates
 
 from app.config import settings
-from app.guide.cuckoo.route import get_cycle_route
 from app.guide.dijkstra.route import get_djikstra_route
+from app.guide.genetic.route import get_cycle_route
 from app.schemas import Point, CalcCyclicRoute, CalcLinearRoute
 from app.sight_filters import FILTERS
 
@@ -101,7 +101,8 @@ def show_route(request: CalcLinearRoute):
 
 if __name__ == "__main__":
     uvicorn.run(
-        app=app,
+        app='main:app',
         host="0.0.0.0",
         port=settings.PORT,
+        workers=1
     )

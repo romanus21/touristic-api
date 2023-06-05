@@ -100,9 +100,4 @@ def show_route(request: CalcLinearRoute):
 
 
 if __name__ == "__main__":
-    uvicorn.run(
-        app='main:app',
-        host="0.0.0.0",
-        port=settings.PORT,
-        workers=1
-    )
+    uvicorn.run(app="main:app", host="0.0.0.0", port=settings.PORT, workers=1)

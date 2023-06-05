@@ -8,7 +8,7 @@ FILTERS = {
     6: {"name": "Обзорные точки", "SQL": "tourism = 'viewpoint'"},
     7: {
         "name": "Историческое достопримечательности",
-        "SQL": "historic is not null",
+        "SQL": "historic is not null and historic != 'memorial'",
     },
     8: {
         "name": "Памятники и монументы",

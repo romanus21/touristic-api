@@ -16,7 +16,7 @@ pool = concurrent.futures.ThreadPoolExecutor(max_workers=50)
 class GenAlgo(Algo):
     speed = 5000
 
-    iterations = 50
+    iterations = 100
 
     start_population_size = 300
     population_size = 50
@@ -26,11 +26,11 @@ class GenAlgo(Algo):
     mutation_probability = 0.2
 
     def __init__(
-            self,
-            graph: MultiGraph,
-            sights: dict[int, Sight],
-            start_node: int,
-            route_time: Hour,
+        self,
+        graph: MultiGraph,
+        sights: dict[int, Sight],
+        start_node: int,
+        route_time: Hour,
     ):
         super().__init__(graph, sights, start_node, route_time)
         self.graph = graph
@@ -55,7 +55,7 @@ class GenAlgo(Algo):
         return route
 
     def create_cached_route(
-            self, start_node: int, end_node: int, route: list[int]
+        self, start_node: int, end_node: int, route: list[int]
     ):
         self.cache.setdefault(start_node, dict())
         self.cache[start_node][end_node] = route
@@ -116,9 +116,6 @@ class GenAlgo(Algo):
 
         intersected = 0
 
-        routes = dict()
-        futures = dict()
-
         for index in range(0, genotype_len):
             start_index = index % genotype_len
             end_index = (index + 1) % genotype_len
@@ -126,20 +123,14 @@ class GenAlgo(Algo):
             end_node = node_genotype[end_index]
 
             tmp_route = self.get_cached_route(start_node, end_node)
-            routes[index] = tmp_route
-            if not tmp_route:
+
+            if tmp_route is None:
                 try:
-                    # tmp_route = nx.shortest_path(
-                    #     self.graph, start_node, end_node
-                    # )
-                    tmp_route_future = pool.submit(
-                        nx.shortest_path, self.graph, start_node, end_node
+                    tmp_route = networkx.shortest_path(
+                        self.graph,
+                        source=start_node,
+                        target=end_node,
                     )
-                    futures[index] = {
-                        "future": tmp_route_future,
-                        "start_node": start_node,
-                        "end_node": end_node,
-                    }
                 except networkx.exception.NetworkXNoPath:
                     print(f"no way between nodes: {start_node} and {end_node}")
                     return 0
@@ -147,28 +138,13 @@ class GenAlgo(Algo):
                     print(f"no nodes: {e} for {self.start_node}")
                     return 0
 
-        for index, future in futures.items():
-            start_node = future['start_node']
-            end_node = future['end_node']
-            try:
-                tmp_route = future['future'].result()
-            except networkx.exception.NetworkXNoPath:
-                print(f"no way between nodes: {start_node} and {end_node}")
-                return 0
-            except networkx.exception.NodeNotFound as e:
-                print(f"no nodes: {e} for {self.start_node}")
-                return 0
-            self.create_cached_route(start_node, end_node, tmp_route)
-            routes[index] = tmp_route
+                self.create_cached_route(start_node, end_node, tmp_route)
 
-        for index in range(0, genotype_len):
-            tmp_route = routes[index]
             intersection = set(tmp_route).intersection(set(route))
             intersected += len(intersection)
 
-            route += tmp_route[0: len(tmp_route) - 1]
+            route += tmp_route[0 : len(tmp_route) - 1]
 
-        end_node = routes[0][0]
         route += [end_node]
 
         interest = sum([gen.popularity for gen in genotype])
@@ -176,9 +152,9 @@ class GenAlgo(Algo):
         real_dist = self.__route_distance(route)
 
         fitness = (
-                interest
-                * (1 - (real_dist - self.ideal_dist) ** 2 / self.ideal_dist ** 2)
-                * (1 / (intersected * 2 + 1))
+            interest
+            * (1 - (real_dist - self.ideal_dist) ** 2 / self.ideal_dist**2)
+            * (1 / (2**intersected + 1))
         )
 
         return fitness
@@ -207,18 +183,18 @@ class GenAlgo(Algo):
         return -1
 
     def __top_selection(
-            self, genotypes_fitness: list[tuple[Genotype, float]]
+        self, genotypes_fitness: list[tuple[Genotype, float]]
     ) -> list[Genotype]:
         sorted_gf = sorted(genotypes_fitness, key=self.__range_sort)[
-                    0: self.selection_size
-                    ]
+            0 : self.selection_size
+        ]
 
         sorted_gf = [gf[0] for gf in sorted_gf]
 
         return sorted_gf
 
     def __range_selection(
-            self, genotypes_fitness: list[tuple[Genotype, float]]
+        self, genotypes_fitness: list[tuple[Genotype, float]]
     ) -> list[Genotype]:
         sorted_gf = sorted(genotypes_fitness, key=self.__range_sort)
         rangs = sum([index + 1 for index in range(len(sorted_gf))])
@@ -276,7 +252,7 @@ class GenAlgo(Algo):
         element2 = un_parted2.pop(0)
 
         for index in range(
-                start + length, start + length + self.genotype_length
+            start + length, start + length + self.genotype_length
         ):
             if child1[index % self.genotype_length] == -1:
                 child1[index % self.genotype_length] = element1
@@ -339,7 +315,7 @@ class GenAlgo(Algo):
             intersection = set(tmp_route).intersection(set(route))
             intersected += len(intersection)
 
-            route += tmp_route[0: len(tmp_route) - 1]
+            route += tmp_route[0 : len(tmp_route) - 1]
 
         return intersected
 
@@ -371,7 +347,7 @@ class GenAlgo(Algo):
                     return 0
                 self.create_cached_route(start_node, end_node, tmp_route)
 
-            route += tmp_route[0: len(tmp_route) - 1]
+            route += tmp_route[0 : len(tmp_route) - 1]
 
         route += [end_node]
 
@@ -439,7 +415,10 @@ class GenAlgo(Algo):
             max_iterations[iteration] = max_fitness
 
         node_genotype = self.__genotype_to_nodes(max_genotype)
-        node_genotype = [self.start_node] + node_genotype
+        # node_genotype = [self.start_node] + node_genotype
+
+        for index, gen in enumerate(max_genotype):
+            gen.name = f"{index + 1}. {gen.name}"
 
         result = AlgoResult(solution=max_genotype)
 

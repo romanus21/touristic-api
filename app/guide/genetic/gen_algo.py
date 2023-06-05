@@ -16,7 +16,7 @@ pool = concurrent.futures.ThreadPoolExecutor(max_workers=50)
 class GenAlgo(Algo):
     speed = 5000
 
-    iterations = 100
+    iterations = 50
 
     start_population_size = 300
     population_size = 50
